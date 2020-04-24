@@ -6,6 +6,8 @@ use serenity::framework::standard::{
 use serenity::model::channel::Message;
 use serenity::prelude::{Context, EventHandler};
 
+use std::env;
+
 #[group]
 #[commands(ping)]
 struct General;
@@ -14,12 +16,9 @@ struct Handler;
 
 impl EventHandler for Handler {}
 
-const BOT_TOKEN: &str = "NzAzMjMzNjI3MTI3MDIxNjU5.XqLosQ.V-UMWsxOCPhUyZrKofrqBqowOaA";
-
 fn main() {
     // Login with a bot token from the environment
-    let mut client =
-        Client::new(BOT_TOKEN, Handler).expect("Error creating client");
+    let mut client = Client::new(&env::var("DISCORD_TOKEN").expect("Discord bot token"), Handler).expect("Error creating client");
     client.with_framework(
         StandardFramework::new()
             .configure(|c| c.prefix("echo ")) // set the bot's prefix to "~"
